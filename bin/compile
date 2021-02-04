@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 function indent() {
 	c='s/^/       /'
 	case $(uname) in
@@ -9,12 +11,17 @@ function indent() {
 }
 
 BUILD_DIR="$1"
-SOURCE_DIR="$(dirname $0)/../fonts.tar.gz"
-TARGET_DIR="$BUILD_DIR/app/.fonts"
+FONTS_DIR="$(dirname $0)/../fonts"
+# SOURCE_DIR="$(dirname $0)/../fonts.tar.gz"
+TARGET_DIR="$BUILD_DIR/.fonts"
 
-echo "-----> Extracting fonts to $TARGET_DIR"
+echo "-----> Installing fonts to $TARGET_DIR"
 
 mkdir -p "$TARGET_DIR"
-tar -xvzf "$SOURCE_DIR" -C "$TARGET_DIR" | indent
-
+cp -a $FONTS_DIR/. $TARGET_DIR/
+#tar -xvzf "$SOURCE_DIR" -C "$TARGET_DIR" | indent
+fc-list
 fc-cache -fv
+echo
+exit 0
+
